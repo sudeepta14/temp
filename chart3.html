@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Narrative-viz by das25</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="stylesheets/normalize.css"
+      media="screen"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:200,500"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="stylesheets/stylesheet.css"
+      media="screen"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="stylesheets/github-light.css"
+      media="screen"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="stylesheets/custom.css"
+      media="screen"
+    />
+  </head>
+
+  <body onload="init()">
+    <section class="page-header1">
+      <h1 class="project-name">Movies Visualization</h1>
+    </section>
+    <div class="w3-bar w3-teal">
+      <a
+        href="#"
+        onclick="navigate('previous');"
+        class="w3-bar-item w3-button"
+        style="width: 27%;"
+        ><<</a
+      >
+      <a
+        href="#"
+        onclick="navigate('summary');"
+        class="w3-bar-item w3-button"
+        style="width: 15%;"
+        >Summary</a
+      >
+      <a
+        href="#"
+        onclick="navigate('genresby');"
+        class="w3-bar-item w3-button"
+        style="width: 15%;"
+        >Genres By</a
+      >
+      <a
+        href="#"
+        onclick="navigate('genresdetail');"
+        class="w3-bar-item w3-button w3-green"
+        style="width: 15%;"
+        >Country Details</a
+      >
+      <a
+        href="#"
+        onclick="navigate('next');"
+        class="w3-bar-item w3-button"
+        style="width: 28%;"
+        >>></a
+      >
+    </div>
+    <section class="main-content">
+      <h3>
+        <span aria-hidden="true" class="octicon octicon-link"></span>Genres by Directors
+      </h3>
+      <div class="tooltip1">
+        This chart shows genres by male/females. By <mark class="teal">default</mark> shows 
+        <mark class="teal">All Jobs</mark> by employers belonging to different <mark class="teal">sectors</mark>.
+        Chart is in descending order with the Company Names having most number of jobs showing first.
+        Many companies are there belonging to different company types and hence pagination provided.</br>
+        Any selection of an <mark class="teal">Employer Type</mark> and <mark class="teal">value</mark> from the previous page will set the chart accordingly.</br>
+        Chart can be viewed interactively by selecting/deselecting the <mark class="teal">Job Titles</mark> on the top right corner.
+	      </br>
+      </p>
+        <div id="selectchoice">
+          <div id="selectdiv"></div>
+        </div>      
+        <div> 
+          <label id="chartlabel" for="chartlabel"></label>
+        </div>
+         <div id="pagination">
+          <input type="button" id="first" onclick="firstPage()" value="first" />
+          <input type="button" id="next" onclick="nextPage()" value="next" />
+          <label id="paginationlabel" for="paginationlabel"></label>
+        </div>        
+        <svg id="chart" width="960" height="500"></svg>        
+      </div>
+
+      <footer class="site-footer">
+        <div class="tooltip2">
+        Please click <mark class="teal">Previous[<<]</mark> or <mark class="teal">Next[>>]</mark> buttons on the menu bar to navigate and view author set charts.
+        </br>
+        <span class="site-footer-credits">
+        Alternatively you may click to interactively view corresponsing data on the charts.
+        </span>
+        </div>
+      </footer>
+    </section>
+
+    <script>
+      //Global Variable
+      var filedata; // this one holds csv data
+      var filteredData = []; // holds filtered data per parameters
+      var chartdata = []; //this will hold chart data at any point of time
+      var totaljobs;
+      var topjobs = []; // Top job Keys
+      var origin;
+      var originby = 'Director';  //default
+      var originByVal;
+
+      // Scene navigation logic
+      var currentPage1 = "chart3.html";
+      var nextPage1 = "chart3.html";
+      var previousPage1 = "chart2.html";
+      var summaryPage1 = "chart1.html";
+      var jobsbyPage1 = "chart2.html";
+      var jobsdetailPage1= "chart3.html";
+
+      function navigate(action) {
+        if (action == "next") {
+          dest = nextPage1;
+        } else if (action == "previous") {
+          dest = previousPage1;
+        } else if (action == "summary") {
+          dest = summaryPage1;
+        } else if (action == "genresby") {
+          dest = jobsbyPage1;
+        } else if (action == "genresdetail") {
+          dest = jobsdetailPage1;
+        } else dest = "#";
+        window.location = dest;
+      }
+
+      // global JavaScript variables
+      var list = [];
+      var pageList = [];
+      var currentPage = 1;
+      var numberPerPage = 6;
+      var numberOfPages = 1;   // calculates the total number of pages      
+
+      function nextPage() {
+        currentPage += 1;
+        d3.select("svg").selectAll("*").remove(); 
+        setTimeout(function(){ loadList(); }, 500);
+      }
+
+      function previousPage() {
+        currentPage -= 1;
+        d3.select("svg").selectAll("*").remove(); 
+        setTimeout(function(){ loadList(); }, 500);
+      }
+
+      function firstPage() {
+        currentPage = 1;
+        d3.select("svg").selectAll("*").remove(); 
+        setTimeout(function(){ loadList(); }, 500);
+      }
+
+      function lastPage() {
+        currentPage = numberOfPages;
+        d3.select("svg").selectAll("*").remove(); 
+        setTimeout(function(){ loadList(); }, 500);
+      }
+
+      function getNumberOfPages() {
+        return Math.ceil(list.length / numberPerPage);
+      }      
+
+      function loadList() {
+        numberOfPages = getNumberOfPages();
+        var begin = ((currentPage - 1) * numberPerPage);
+        var end = begin + numberPerPage;
+
+        pageList = list.slice(begin, end);
+        chart(pageList); // draws out our data
+         check();         // determines the states of the pagination buttons
+
+        //set page number
+        document.getElementById("paginationlabel").innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + 
+        "Total Years: <b>" + list.length + "</b>" + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + 
+          "Current Page: <b>" + currentPage + "</b>" + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + "Total Pages:<b>" + numberOfPages + "</b>";    
+      } 
+      
+      function check() {
+        document.getElementById("next").disabled = currentPage == numberOfPages ? true : false;
+        document.getElementById("first").disabled = currentPage == 1 ? true : false;
+      }      
+
+      // All chart variables
+      var svg = d3.select("svg"),
+        margin = {top: 20, right: 20, bottom: 30, left: 40},
+        width = +svg.attr("width") - margin.left - margin.right,
+        height = +svg.attr("height") - margin.top - margin.bottom,
+        g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      // The scale spacing the groups:
+      var x0 = d3.scaleBand()
+          .rangeRound([0, width])
+          .paddingInner(0.1);
+
+      // The scale for spacing each group's bar:
+      var x1 = d3.scaleBand()
+          .padding(0.05);
+
+      var y = d3.scaleLinear()
+        .rangeRound([height, 0]);   
+        
+      var z = d3.scaleOrdinal()
+        //.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);        
+        .range(["steelblue", "darkorange", "green", "red", "purple", "brown", "pink"]);
+
+      // Tool Tip mouse hover
+      var tooltip = d3
+        .select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("z-index", 10)
+        .style("visibility", "hidden")
+        .text("Simple text");
+
+      //Function called on body onload
+      async function init() {
+        filedata = await d3.csv("data/input_data.csv");
+filedata = filedata.filter(function(d){return d.IMDb >= 7 && (d.Year >= 2010 && d.Year <= 2019);});
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        origin =
+          urlParams.get("origin") == undefined ||
+          urlParams.get("origin") == null ||
+          urlParams.get("origin") == ""
+            ? "All Movies"
+            : urlParams.get("origin").replace('^', ' ').replace('~',' & ').replace('`', '+');
+        originby =
+          urlParams.get("originby") == undefined ||
+          urlParams.get("originby") == null ||
+          urlParams.get("originby") == ""
+            ? "Age"
+            : urlParams.get("originby").replace('^', ' ').replace('~',' & ').replace('`', '+');
+        originbyval =
+          urlParams.get("originbyval") == undefined ||
+          urlParams.get("originbyval") == null ||
+          urlParams.get("originbyval") == ""
+            ? ""
+            : urlParams.get("originbyval").replace('^', ' ').replace('~',' & ').replace('`', '+');            
+        console.log('origin', origin);
+        console.log('originby', originby);
+        console.log('originbyval', originbyval);
+
+        //Before drawing chart set everything to blank
+        var originbyval1 = (originbyval !== "")? originbyval : "All";
+        document.getElementById("chartlabel").innerHTML = "<mark class='green'> Chart: </mark>" + 
+          "Showing distribution for <mark class='teal'>" + origin + "</mark> by Employer " + 
+          "<mark class='teal'>" + originby + "</mark> - " + "<mark class='green'>" + originbyval1 + "</mark>." +
+          " Starting with Companies having more number of jobs." + "</br></br>";
+
+        initializeChartData(); //initializes list with data for the next loadList call
+        loadList();
+      }
+
+
+      //Function to form chart data depending on selection
+      function initializeChartData() {
+        var keyval;
+        
+        // first filter data by origin type
+        if (originby === 'Age') {
+          if (originbyval === '') {
+            filteredData = filedata.filter(function(d){return d;});
+          } else if (originbyval === 'Unknown') {
+            filteredData = filedata.filter(function(d){
+              if ((d.Age == '-1') || (d.Age.toLowerCase().indexOf('unknown') !== -1)) 
+              return d ;
+            });
+          } else {
+            filteredData = filedata.filter(function(d){return d.Age == originbyval;});
+          }
+        } 
+        else if (originby === 'Language') {
+          if (originbyval === '') {
+            filteredData = filedata.filter(function(d){return d;});
+          } else if (originbyval === 'Unknown') {
+            filteredData = filedata.filter(function(d){
+              if ((d.Language == '-1') || (d.Language.toLowerCase().indexOf('unknown') !== -1)) 
+              return d ;
+            });
+          } else {
+            filteredData = filedata.filter(function(d){return d.Language == originbyval;});
+          }
+        }
+        else if (originby === 'Runtime') {
+          if (originbyval === '') {
+            filteredData = filedata.filter(function(d){return d;});
+          } else if (originbyval === 'Unknown') {
+            filteredData = filedata.filter(function(d){
+              if ((d.IMDb == '-1') || (d.IMDb.toLowerCase().indexOf('unknown') !== -1)) 
+              return d ;
+            });
+          } else {
+            filteredData = filedata.filter(function(d){return d.IMDb == originbyval;});
+          }
+        }
+        else if (originby === 'Genre') {
+          if (originbyval === '') {
+            filteredData = filedata.filter(function(d){return d;});
+          } else if (originbyval === 'Unknown') {
+            filteredData = filedata.filter(function(d){
+              if ((d.Genre == '-1') || (d.Genre.toLowerCase().indexOf('unknown') !== -1)) 
+              return d ;
+            });
+          } else {
+            filteredData = filedata.filter(function(d){return d.Genre == originbyval;});
+          }
+        } 
+        //console.log('filteredData', filteredData);
+
+        // form chart data now
+        var interimData, interimData1, interimData2, interimData3  = [];
+        interimData = d3
+        .nest()
+        .key(function (d) {
+          if (d["Year"] === "") keyval = "NA";
+          else if (d["Year"] === "-1") keyval = "NA";
+          else keyval = d["Year"]; //Removing linefeed and numbers at the end of company name
+          return keyval;
+        })      
+        .rollup(function (d) {
+          return {
+            Netflix: d3.sum(d, function (g) {
+              if (g.Netflix == 1) return 1;
+              else return 0;
+            }),
+            PrimeVideo: d3.sum(d, function (g) {
+              if (g.PrimeVideo == 1) return 1;
+              else return 0;
+            }),
+            Hulu: d3.sum(d, function (g) {
+              if (g.Hulu == 1) return 1;
+              else return 0;
+            }),
+            Disney: d3.sum(d, function (g) {
+              if (g.Disney == 1) return 1;
+              else return 0;
+            }),
+            totaljobcount: d3.sum(d, function (g) {
+                return 1;
+            })
+          }
+        })
+        .entries(filteredData);
+		console.log('interimData', interimData);
+		
+        if((origin !== 'All^Movies') && (origin !== ""))
+          if (origin == 'Netflix') interimData1 = interimData.slice().sort((a, b) => d3.descending(a.key, b.key));
+          else if (origin == 'PrimeVideo') interimData1 = interimData.slice().sort((a, b) => d3.descending(a.key, b.key));
+          else if (origin == 'Hulu') interimData1 = interimData.slice().sort((a, b) => d3.descending(a.key, b.key));
+          else if (origin == 'DisneyPlus') interimData1 = interimData.slice().sort((a, b) => d3.descending(a.key, b.key));
+        else
+          interimData1 = interimData.slice().sort((a, b) => d3.descending(a.key, b.key));
+		console.log('interimData1', interimData1);
+		console.log('origin', origin);
+
+        var i = 0;   
+        interimData2 = interimData1.map(function (obj) {
+          return {
+            key: obj.key,
+            Netflix: obj.value.Netflix,
+            PrimeVideo: obj.value.PrimeVideo,
+            Hulu: obj.value.Hulu ,
+            Disney: obj.value.Disney,
+            totaljobcount: obj.value.totaljobcount
+          }
+        });
+         console.log('Sorted Data', interimData2);
+        list = [...interimData2];
+      }      
+
+      //Drawing the chart
+      function chart(data) {
+        //data = data.slice(0, 8);
+        console.log('Page Data', data);
+
+        svg = d3.select("svg"),
+        margin = {top: 20, right: 20, bottom: 30, left: 40},
+        width = +svg.attr("width") - margin.left - margin.right,
+        height = +svg.attr("height") - margin.top - margin.bottom,
+        g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");        
+
+        x0 = d3.scaleBand()
+          .rangeRound([0, width])
+          .paddingInner(0.1);
+
+        // The scale for spacing each group's bar:
+        x1 = d3.scaleBand()
+          .padding(0.05);
+
+        y = d3.scaleLinear()
+        .rangeRound([height, 0]);   
+
+        z = d3.scaleOrdinal()
+        //.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);        
+        .range(["#E50914", "#00A8E1", "#66aa33", "#006e99"]);        
+
+        //var keys = data.columns.slice(1);
+        //var keys = ['data_engineer' ,'senior_data_engineer', 'software_engineer', 'bigdata_engineer', 'sr_data_engineer', 'others', 'totaljobcount'];
+        var keys = ['Netflix' ,'PrimeVideo', 'Hulu', 'Disney'];
+
+        // console.log('keys', keys);
+        x0.domain(data.map(function(d) { return d.key; }));
+        x1.domain(keys).rangeRound([0, x0.bandwidth()]);
+        y.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { return d[key]; }); })]).nice();
+
+
+ // var stackedData = d3.stack()
+  //  .keys(subgroups)
+  //  (data)
+
+
+        g.append("g")
+            .selectAll("g")
+            .data(data)
+            .enter().append("g")
+            .attr("class","bar")
+            .attr("transform", function(d) { return "translate(" + x0(d.key) + ",0)"; })
+            .selectAll("rect")
+            .data(function(d) { return keys.map(function(key) { return {key: key, value: d[key]}; }); })
+            .enter().append("rect")
+            .attr("x", function(d) { return x1(d.key); })
+            .attr("y", function(d) { return y(d.value); })
+            .attr("width", x1.bandwidth())
+            .attr("height", function(d) { return height - y(d.value); })
+            .attr("fill", function(d) { return z(d.key); })
+          .on("mouseover", function(d,i) {
+            var selval = pageList[i];
+            var textval = "";
+            // textval = textval + "Company Name : " + selval.key;
+            // textval = textval + "</br>" + originby ;
+            // if (originbyval !== "") textval = textval + " : " + originbyval;
+            // else textval = textval + " : " + "All";
+            // textval = textval + "</br>" + "Total Jobs : " + selval.totaljobcount;
+            // textval = textval + "</br>" + d.key + " : " +  d.value
+            textval = d.key + " : " +  d.value
+            tooltip.html(textval);
+            return tooltip.style("visibility", "visible");
+          })    
+          .on("mousemove", function () {
+            return tooltip
+              .style("top", d3.event.pageY - 10 + "px")
+              .style("left", d3.event.pageX + 10 + "px");
+          })
+          .on("mouseout", () => tooltip.style("visibility", "hidden"));            
+
+        g.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x0))
+            .selectAll("text")
+            .style("font-size", "12px");
+
+        g.append("g")
+            .attr("class", "y axis")
+            .call(d3.axisLeft(y).ticks(null, "s"))
+            .append("text")
+            .attr("x", 2)
+            .attr("y", y(y.ticks().pop()) + 0.5)
+            .attr("dy", "0.32em")
+            .attr("font-size", 11)
+            .attr("fill", "#000")
+            //.attr("font-weight", "bold")
+            .attr("text-anchor", "start")
+            .text("No. Of Jobs");
+
+        var legend = g.append("g")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", 12)
+            .attr("text-anchor", "end")
+            .selectAll("g")
+            .data(keys.slice())
+            .enter().append("g")
+            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+        legend.append("rect")
+            .attr("x", width - 17)
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("fill", z)
+            .attr("stroke", z)
+            .attr("stroke-width",2)
+            .on("click",function(d) { update(d) });
+
+        legend.append("text")
+            .attr("x", width - 24)
+            .attr("y", 9.5)
+            .attr("dy", "0.32em")
+            .text(function(d) { return d; });
+
+        var filtered = [];
+
+        function update(d) {
+
+          // Array update and clicked key addition if not included
+            if (filtered.indexOf(d) == -1) {
+                filtered.push(d);
+                // if all bars are un-checked, reset:
+                if(filtered.length == keys.length) filtered = [];
+            }
+            else {             // remove
+                filtered.splice(filtered.indexOf(d), 1);
+            }
+
+            // Scale update group items
+            var newKeys = [];
+            keys.forEach(function(d) {
+                if (filtered.indexOf(d) == -1 ) {
+                    newKeys.push(d);
+                }
+            })
+            x1.domain(newKeys).rangeRound([0, x0.bandwidth()]);
+            y.domain([0, d3.max(data, function(d) { return d3.max(keys, function(key) { if (filtered.indexOf(key) == -1) return d[key]; }); })]).nice();
+
+            // update y axis:
+            svg.select(".y")
+                .transition()
+                .call(d3.axisLeft(y).ticks(null, "s"))
+                .duration(500);
+
+            //Hide bands if required
+            var bars = svg.selectAll(".bar").selectAll("rect")
+                .data(function(d) { return keys.map(function(key) { return {key: key, value: d[key]}; }); })
+
+            bars.filter(function(d) {
+                    return filtered.indexOf(d.key) > -1;
+                })
+                .transition()
+                .attr("x", function(d) {
+                    return (+d3.select(this).attr("x")) + (+d3.select(this).attr("width"))/2;
+                })
+                .attr("height",0)
+                .attr("width",0)
+                .attr("y", function(d) { return height; })
+                .duration(500);
+
+            // Bars adjustment
+            bars.filter(function(d) {
+                    return filtered.indexOf(d.key) == -1;
+                })
+                .transition()
+                .attr("x", function(d) { return x1(d.key); })
+                .attr("y", function(d) { return y(d.value); })
+                .attr("height", function(d) { return height - y(d.value); })
+                .attr("width", x1.bandwidth())
+                .attr("fill", function(d) { return z(d.key); })
+                .duration(500);
+
+
+            // update filters
+            legend.selectAll("rect")
+                .transition()
+                .attr("fill",function(d) {
+                    if (filtered.length) {
+                        if (filtered.indexOf(d) == -1) {
+                            return z(d);
+                        }
+                        else {
+                            return "white";
+                        }
+                    }
+                    else {
+                        return z(d);
+                    }
+                })
+                .duration(100);
+        }
+      }
+    </script>
+  </body>
+</html>

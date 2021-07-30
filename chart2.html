@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Narrative-viz by das25</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="stylesheets/normalize.css"
+      media="screen"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:200,500"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="stylesheets/stylesheet.css"
+      media="screen"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="stylesheets/github-light.css"
+      media="screen"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="stylesheets/custom.css"
+      media="screen"
+    />
+  </head>
+
+  <body onload="init()">
+    <section class="page-header1">
+      <h1 class="project-name">Movies Visualization</h1>
+    </section>
+    <div class="w3-bar w3-teal">
+      <a
+        href="#"
+        onclick="navigate('previous');"
+        class="w3-bar-item w3-button"
+        style="width: 27%;"
+        ><<</a
+      >
+      <a
+        href="#"
+        onclick="navigate('summary');"
+        class="w3-bar-item w3-button"
+        style="width: 15%;"
+        >Summary</a
+      >
+      <a
+        href="#"
+        onclick="navigate('genresby');"
+        class="w3-bar-item w3-button w3-green"
+        style="width: 15%;"
+        >Movies By</a
+      >
+      <a
+        href="#"
+        onclick="navigate('genresdetail');"
+        class="w3-bar-item w3-button"
+        style="width: 15%;"
+        >Genres Details</a
+      >
+      <a
+        href="#"
+        onclick="navigate('next');"
+        class="w3-bar-item w3-button"
+        style="width: 28%;"
+        >>></a
+      >
+    </div>
+    <section class="main-content">
+      <h3>
+        <span aria-hidden="true" class="octicon octicon-link"></span>Genres by Movie Types
+      </h3>
+      <div class="tooltip1">
+        This chart shows genres by different Sports/Disciplines/Events Games attributes. By <mark class="pink">default</mark> shows 
+        <mark class="pink">all genres</mark> by Games belonging to different <mark class="pink">Sports</mark>.
+        Any selection of a <mark class="pink">Country</mark> from the previous page will set the chart accordingly.</br>
+        Chart can be viewed interactively by selecting the <mark class="pink">Country</mark> and <mark class="pink">Movie Type</mark>
+        from the drop down below.        
+	      </br>
+      </p>
+      <div id="selectchoice">
+        <div id="selectdiv"></div>
+        <div id="bydiv"></div>
+      </div>
+      <div>
+        <div></br></div>
+        <div class="tooltip1"> 
+          <label id="chartlabel" for="chartlabel"></label>
+        </div>
+        <svg width="600" height="600"></svg>
+      </div>
+
+      <footer class="site-footer">
+        <div class="tooltip2">
+        Please click <mark class="teal">Previous[<<]</mark> or <mark class="pink">Next[>>]</mark> buttons on the menu bar to navigate and view author set charts.
+        </br>
+        <span class="site-footer-credits">
+        Alternatively you may click to interactively view corresponsing data on the charts.
+        </span>
+        </div>
+      </footer>
+    </section>
+
+    <script>
+      //Global Variable
+      var data; // this one holds csv data
+      var chartdata; //this will hold chart data at any point of time
+      var jobdata = [];
+      var totaljobs;
+      var topjobs = []; // Top job Keys
+      var origin;
+      var originby = 'Age';  //default
+      var margin = {
+        top: 50,
+        right: 50,
+        bottom: 50,
+        left: 50,
+      };
+      var width = 800;
+      var height = 500;
+      var xwidth = width - 2 * margin.right - 2 * margin.left;
+      var yheight = height - 2 * margin.top - 2 * margin.bottom;
+      const addfactor = 10;
+
+      var currentPage = "chart2.html";
+      var nextPage = "chart3.html";
+      var previousPage = "chart1.html";
+      var summaryPage = "chart1.html";
+      var genresbyPage = "chart2.html";
+      var jobsdetailPage = "chart3.html";
+
+      function navigate(action) {
+        if (action == "next") {
+          dest = nextPage;
+        } else if (action == "previous") {
+          dest = previousPage;
+        } else if (action == "summary") {
+          dest = summaryPage;
+        } else if (action == "genresby") {
+          dest = genresbyPage;
+        } else if (action == "genresdetail") {
+          dest = jobsdetailPage;
+        } else dest = "#";
+        window.location = dest;
+      }      
+
+      //Function to do array value sum
+      Array.prototype.sum = function (prop) {
+        var total = 0;
+        for (var i = 0, _len = this.length; i < _len; i++) {
+          total += this[i][prop];
+        }
+        return total;
+      }
+
+      // Function to check if key exists in array
+      function keyExists(keyval) {
+        return topjobs.some(function(el) {
+        return el === keyval;
+      }); 
+}      
+
+
+     
+     
+      //Function to Load jobs list
+      function loadJobs() {
+filteredData = filedata.filter(function(d){return d.IMDb >= 7;});
+//console.log('filteredData', filteredData);
+
+netflixTotal = d3.sum(
+  filteredData.filter(d => d.Netflix == 1),
+  d => d.Netflix
+)
+console.log('netflixTotal', netflixTotal);
+
+primeVideoTotal = d3.sum(
+  filteredData.filter(d => d.PrimeVideo == 1),
+  d => d.PrimeVideo
+)
+console.log('primeVideoTotal', primeVideoTotal);
+
+huluTotal = d3.sum(
+  filteredData.filter(d => d.Hulu == 1),
+  d => d.Hulu
+)
+console.log('huluTotal', huluTotal);
+
+
+disneyTotal = d3.sum(
+  filteredData.filter(d => d.Disney == 1),
+  d => d.Disney
+)
+console.log('disneyTotal', disneyTotal);
+
+otherTotal = d3.sum(
+  filteredData.filter((d => d.Disney == 0) &&
+  (d => d.Netflix == 0) &&
+  (d => d.Hulu == 0) &&
+  (d => d.PrimeVideo == 0)),
+  d => 1
+)
+console.log('otherTotal', otherTotal);
+
+var streamingServicesMap = {
+  "Netflix":netflixTotal,
+  "Prime Video":primeVideoTotal,
+  "Hulu":huluTotal,
+  "DisneyPlus":disneyTotal
+};
+console.log('streamingServicesMap', streamingServicesMap);
+
+      var seldata = d3.entries(streamingServicesMap);
+
+var data1 = d3
+          .nest()
+          .key(function (d) {
+            return d.ID == "" ? "None" : d.ID;
+          })
+          .rollup(function (d) {
+            return d3.sum(d, function (g) {
+              return 1;
+            });
+          })
+          .entries(filteredData);        /*var seldata = d3
+          .nest()
+          .key(function (d) {
+            return d.Genre == "" ? "None" : d.Genre;
+          })
+          .rollup(function (d) {
+            return d3.sum(d, function (g) {
+              return 1;
+            });
+          })
+          .entries(data);*/
+
+        totaljobs = data1.sum("value"); // getting total jobs
+
+        seldata.sort(function (a, b) {
+          return d3.descending(+a.value, +b.value);
+        });
+        jobdata = seldata.slice(0, 10); // Top 20 elements
+        //topjobs = jobdata.map(d => {return d.key;}); //Storing top job titles
+         console.log('seldata', seldata);
+
+        // Commented section to add other jobs and number
+        //var remjobdata = seldata.slice(10); // remaining after 20 elements
+        // console.log(remjobdata.sum("value"));
+        //var newElement = [{ key: "All Other Genres", value: remjobdata.sum("value") }];
+        //jobdata = seldata.concat(newElement); // added others as the first element
+        newElement = [{ key: "All Movies", value: totaljobs }];
+        jobdata = seldata.concat(newElement); // added others as the first element        
+        console.log('jobdata', jobdata);
+
+        //Now load data to the select
+        // ***** adding jobs select ******
+        var jobtitlelabel = document.createElement("label");
+        jobtitlelabel.innerHTML =
+          "Streaming Service : " + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+        jobtitlelabel.htmlFor = "jobs";
+
+        var selectjobtitle = document.createElement("select");
+        selectjobtitle.name = "jobtitle";
+        selectjobtitle.id = "jobtitle";
+        selectjobtitle.addEventListener("change", function (event) {
+          origin = document.getElementById("jobtitle").value;
+          
+          initializeChartData();
+          showChart();
+        });
+		console.log('origin', origin)
+        // //add one first option - All
+        // var jobtitleoption = document.createElement("option");
+        // jobtitleoption.value = "All Jobs";
+        // jobtitleoption.text = "All Jobs : " + totaljobs;
+        // selectjobtitle.appendChild(jobtitleoption);
+
+        for (const val of jobdata) {
+          jobtitleoption = document.createElement("option");
+          jobtitleoption.value = val.key;
+          jobtitleoption.text = val.key + " : " + val.value;
+          if (val.key == origin) jobtitleoption.selected = true;
+          selectjobtitle.appendChild(jobtitleoption);
+        }
+
+        //First remove all elements and then add
+        document.getElementById("selectdiv").innerHTML = null;
+        document
+          .getElementById("selectdiv")
+          .appendChild(jobtitlelabel)
+          .appendChild(selectjobtitle);
+        
+        var brelement = document.createElement("p");
+        document
+          .getElementById("selectdiv")
+          .appendChild(brelement); 
+
+        // ***** adding by select ******
+        var bylabel = document.createElement("label");
+        bylabel.innerHTML =
+          "Movies By : ";
+          bylabel.htmlFor = "by"; 
+
+        var selectby = document.createElement("select");
+        selectby.name = "by";
+        selectby.id = "by";
+        selectby.addEventListener("change", function (event) {
+          originby = document.getElementById("by").value;
+          //Show chart
+          initializeChartData();
+          showChart();
+        });
+ 
+        byoption = document.createElement("option");
+        byoption.value = 'Age';
+        byoption.text = 'Age';
+        selectby.appendChild(byoption);         
+        byoption = document.createElement("option");
+        byoption.value = 'Language';
+        byoption.text = 'Language';
+        selectby.appendChild(byoption); 
+        var byoption = document.createElement("option");
+        byoption.value = 'Runtime';
+        byoption.text = 'Runtime';
+        selectby.appendChild(byoption);        
+        byoption = document.createElement("option");
+        byoption.value = 'Genre';
+        byoption.text = 'Genre';
+        selectby.appendChild(byoption);        
+        
+        //First remove all elements and then add
+        document.getElementById("bydiv").innerHTML = null;
+        document
+          .getElementById("bydiv")
+          .appendChild(bylabel)
+          .appendChild(selectby);
+      }
+
+      function loadPage(id) {
+        //replace space and & character for url 
+        var originwsa = origin.replace('+','`').replace(' & ','~').replace(' ', '^');
+        var originbywsa = originby.replace('+','`').replace(' & ','~').replace(' ', '^');
+        var originbyvalwsa = id.replace('+','`').replace(' & ','~').replace(' ', '^');
+        dest = "chart3.html" + "?origin=" + originwsa + "&originby=" + originbywsa + "&originbyval=" + originbyvalwsa;
+        //console.log(dest);
+        window.location = dest;
+      }
+
+      //Function called on body onload
+      async function init() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        origin =
+          urlParams.get("origin") == undefined ||
+          urlParams.get("origin") == null ||
+          urlParams.get("origin") == ""
+            ? "All Movies"
+            : urlParams.get("origin");
+        // console.log(origin);
+
+        filedata = await d3.csv("data/input_data.csv");
+
+        //Load Job select
+        loadJobs();
+        initializeChartData();
+        //Show chart
+        showChart();
+      }
+
+
+      //Function to form chart data depending on selection
+      function initializeChartData() {
+        var keyval;
+        
+       if (origin === 'Netflix') {
+            filteredData = filedata.filter(function(d){
+              return (d.Netflix == 1 && d.IMDb >= 7);
+              return d ;
+            });
+          } 
+       else if (origin === 'Prime Video') {
+            filteredData = filedata.filter(function(d){
+              return (d.PrimeVideo == 1 && d.IMDb >= 7);
+            });
+          } 
+       else if (origin === 'Hulu') {
+            filteredData = filedata.filter(function(d){
+              return (d.Hulu == 1 && d.IMDb >= 7);
+            });
+          } 
+       else if (origin === 'DisneyPlus') {
+            filteredData = filedata.filter(function(d){
+              return (d.Disney == 1 && d.IMDb >= 7);
+            });
+          } 
+       else if (origin === 'All Movies') {
+            filteredData = filedata.filter(function(d){
+              return  d.IMDb >= 7 ;
+            });
+          } 
+        console.log('filteredData', filteredData);
+        console.log('originby', originby);
+        console.log('origin', origin);
+
+        //Form data per origin by
+        if (originby === 'Age') {
+          chartdata = d3
+          .nest()
+          .key(function (d) {
+            if (d.Age == "") keyval = "Unknown";
+            else if (d.Age == "-1") keyval = "Unknown";
+            else keyval = d.Age;
+            
+            if (origin == "All Movies") return keyval;
+            else if (origin === "Netflix") return keyval;
+            else if (origin === "Prime Video") return keyval;
+            else if (origin === "Hulu") return keyval;
+            else if (origin === "DisneyPlus") return keyval;
+            //else if (d.Genre == origin) return keyval;
+       		else return "Filter";
+          })
+          .rollup(function (d) {
+            return d3.sum(d, function (g) {
+           		return 1;
+            });
+          })
+          .entries(filteredData);
+        } 
+        
+        //console.log('chartdata', chartdata)
+        
+        
+        else if (originby === 'Runtime') {
+          chartdata = d3
+          .nest()
+          .key(function (d) {
+            if (d.Runtime == "") keyval = "Unknown";
+            else if (d.Runtime == "-1") keyval = "Unknown";
+            else keyval = d.Runtime;
+            
+            if (origin == "All Movies") return keyval;
+            else if (origin === "Netflix") return keyval;
+            else if (origin === "Prime Video") return keyval;
+            else if (origin === "Hulu") return keyval;
+            else if (origin === "DisneyPlus") return keyval;
+            //else if (d.Genre == origin) return keyval;
+       		else return "Filter";
+          })
+          .rollup(function (d) {
+            return d3.sum(d, function (g) {
+           		return 1;
+            });
+          })
+          .entries(filteredData);
+        } 
+        else if (originby === 'Language') {
+          chartdata = d3
+          .nest()
+          .key(function (d) {
+            if (d.Language == "") keyval = "Unknown";
+            else if (d.Language == "-1") keyval = "Unknown";
+            else keyval = d.Language;
+            
+            if (origin == "All Movies") return keyval;
+            else if (origin === "Netflix") return keyval;
+            else if (origin === "Prime Video") return keyval;
+            else if (origin === "Hulu") return keyval;
+            else if (origin === "DisneyPlus") return keyval;
+            //else if (d.Genre == origin) return keyval;
+       		else return "Filter";
+          })
+          .rollup(function (d) {
+            return d3.sum(d, function (g) {
+           		return 1;
+            });
+          })
+          .entries(filteredData);
+        }
+        else if (originby === 'Genre') {
+          chartdata = d3
+          .nest()
+          .key(function (d) {
+            if (d.Genre == "") keyval = "Unknown";
+            else if (d.Genre == "-1") keyval = "Unknown";
+            else keyval = d.Genre;
+            
+            if (origin == "All Movies") return keyval;
+            else if (origin === "Netflix") return keyval;
+            else if (origin === "Prime Video") return keyval;
+            else if (origin === "Hulu") return keyval;
+            else if (origin === "DisneyPlus") return keyval;
+            //else if (d.Genre == origin) return keyval;
+       		else return "Filter";
+          })
+          .rollup(function (d) {
+            return d3.sum(d, function (g) {
+           		return 1;
+            });
+          })
+          .entries(filteredData);
+        }   
+        
+      }      
+
+      //Function to draw chart
+      function showChart() {
+        var data2 = [];
+        var toodata;
+        chartdata.sort(function (a, b) {
+          return d3.descending(+a.value, +b.value);
+        });
+
+        //Removing "Filter" record - as it is for other than the passed origin
+        var data2 = chartdata.filter((x) => {
+          return x.key != "Filter";
+        });
+
+        if(origin == 'All Other Genres') {
+          toodata = data2;
+        } else {
+          toodata = data2.slice(0, 10); // Top 20 elements
+        }
+        // console.log('toodata', toodata);     
+
+        //X-scale
+        var xs = d3
+          .scaleBand()
+          .domain(
+            toodata.map(function (d) {
+              return d.key;
+            })
+          )
+          .range([0, xwidth]);
+
+        //y-scale
+        var ys = d3
+          .scaleLinear()
+          .domain([
+            d3.min(toodata, function (d) {
+              return d.value;
+            }),
+            d3.max(toodata, function (d) {
+              return d.value;
+            }),
+          ])
+          .range([yheight, 0]);
+
+        var colorrn = d3.scaleOrdinal(d3.schemeCategory10); //Not working properly, color should be same as pie chart
+
+        // Tool Tip mouse hover
+        var tooltip = d3
+          .select("body")
+          .append("div")
+          .attr("class", "tooltip")
+          .style("position", "absolute")
+          .style("z-index", 10)
+          .style("visibility", "hidden")
+          .text("Simple text");
+
+        //Before drawing chart set everything to blank
+        document.getElementById("chartlabel").innerHTML = "<mark class='green'> Chart: </mark>" + 
+          "Showing distribution for Genres for <mark class='pink'>" + origin + "</mark> by top 20 in Game type (<mark class='pink'>" + originby + "</mark>)" + " by number of genres";
+
+        d3.select("svg").selectAll("*").remove();
+
+        // Chart
+        d3.select("svg")
+          .attr("width", width)
+          .attr("height", height)
+          .append("g")
+          .attr(
+            "transform",
+            "translate(" + margin.right + "," + margin.bottom + ")"
+          )
+          .selectAll("rect")
+          .data(toodata)
+          .enter()
+          .append("rect")
+          .attr("x", function (d, i) {
+            return xs(d.key);
+          })
+          .attr("y", function (d) {
+            return ys(d.value);
+          })
+          .attr("width", xs.bandwidth())
+          .attr("height", function (d) {
+            return addfactor + (yheight - ys(d.value));
+          })
+          .attr("fill", function (d) {
+            return colorrn(d.key);
+          })
+          .text((d) => d.value)
+          .on("mouseover", (d) => {
+            var selobject = jobdata.find(a => a.key == origin);
+            var textval = selobject.key + " : " + selobject.value;
+            textval = textval + "</br>" + d.key + " : " + d.value.toFixed(0) + ' Genres';
+            tooltip.html(textval);
+            return tooltip.style("visibility", "visible");
+          })
+          .on("mousemove", function () {
+            return tooltip
+              .style("top", d3.event.pageY - 10 + "px")
+              .style("left", d3.event.pageX + 10 + "px");
+          })
+          .on("mouseout", () => tooltip.style("visibility", "hidden"))
+          .on("click", (d) => {
+            loadPage(d.key);
+          });
+                
+
+        //y - axis
+        d3.select("svg")
+          .attr("width", width)
+          .attr("height", height)
+          .append("g")
+          .attr(
+            "transform",
+            "translate(" +
+              margin.right +
+              "," +
+              (addfactor + margin.bottom) +
+              ")"
+          )
+          .call(
+            d3
+              .axisLeft(ys)
+              .ticks(7)
+              //.tickFormat(d3.format("~s"))
+          );
+
+        // text label for the y axis
+        d3.select("svg")
+          .attr("width", width)
+          .attr("height", height)
+          .append("g")
+          .attr(
+            "transform",
+            "translate(" + margin.right + "," + margin.bottom + ")"
+          )
+          .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 0 - margin.left)
+          .attr("x", 0 - yheight / 2)
+          .attr("dy", ".75em")
+          .style("text-anchor", "middle")
+          .style("font", "Arial")
+          .style("font-size", "11px")
+          .style("font-weight", "bold")
+          .text("No of Movies");
+
+        // x- axis
+        
+        d3.select("svg")
+          .attr("width", width)
+          .attr("height", height)
+          .append("g")
+          .attr(
+            "transform",
+            "translate(" +
+              margin.right +
+              "," +
+              (addfactor + yheight + margin.bottom) +
+              ")"
+          ) //(50,450)
+          .call(d3.axisBottom(xs))
+          .selectAll("text")
+          .attr("y", 0)
+          .attr("x", 10)
+          .attr("dy", ".35em")
+          .attr("transform", "rotate(90)")
+          .style("text-anchor", "start")
+          .style("font", "Arial")
+          .style("font-size", "11px")
+          .style("font-weight", "bold");
+      }
+    </script>
+  </body>
+</html>
