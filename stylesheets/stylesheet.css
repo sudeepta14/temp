@@ -154,7 +154,7 @@ a:hover {
   margin-top: 2rem;
   margin-bottom: 1rem;
   font-weight: normal;
-  color: #159957;
+  color: darkblue;
 }
 .main-content p {
   margin-bottom: 1em;
@@ -296,7 +296,9 @@ a:hover {
     font-size: 1rem;
   }
 }
-
+.header2{
+  color: darkblue;
+}
 .site-footer {
   margin-top: 2rem;
   margin-bottom: 30px;
