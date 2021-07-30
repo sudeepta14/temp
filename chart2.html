@@ -63,11 +63,11 @@
           <div class="large-8 medium-12 column">
               <nav> 
                   <ul> 
-                      <li><a href="#" onclick="navigate('summary');" class="scroll">Content Volume</a></li>
+                      <li><a href="#" onclick="navigate('volume');" class="scroll">Content Volume</a></li>
                       <li>|</li>
-                      <li><a href="#" onclick="navigate('genresby');" class="scroll">Content Category</a></li>
+                      <li><a href="#" onclick="navigate('category');" class="scroll">Content Category</a></li>
                       <li>|</li>
-                      <li><a href="#" onclick="navigate('genresdetail');" class="scroll">Content Trend</a></li>
+                      <li><a href="#" onclick="navigate('trend');" class="scroll">Content Trend</a></li>
                   </ul>
               </nav>
           </div>
@@ -135,21 +135,21 @@
       var currentPage = "chart2.html";
       var nextPage = "chart3.html";
       var previousPage = "chart1.html";
-      var summaryPage = "chart1.html";
-      var genresbyPage = "chart2.html";
-      var jobsdetailPage = "chart3.html";
+      var volumePage = "chart1.html";
+      var categoryPage = "chart2.html";
+      var trendPage = "chart3.html";
 
       function navigate(action) {
         if (action == "next") {
           dest = nextPage;
         } else if (action == "previous") {
           dest = previousPage;
-        } else if (action == "summary") {
-          dest = summaryPage;
-        } else if (action == "genresby") {
-          dest = genresbyPage;
-        } else if (action == "genresdetail") {
-          dest = jobsdetailPage;
+        } else if (action == "volume") {
+          dest = volumePage;
+        } else if (action == "category") {
+          dest = categoryPage;
+        } else if (action == "trend") {
+          dest = trendPage;
         } else dest = "#";
         window.location = dest;
       }      
