@@ -6,6 +6,21 @@
     <title>Narrative-viz by das25</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link href="css/foundation.css" type="text/css" rel="stylesheet" media="screen" />
+        
+        <!-- Normalize-->
+        <link href="css/normalize.css" type="text/css" rel="stylesheet" media="screen" />
+
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+        
+        <!-- Source Sans Pro Google Web Font-->
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,400italic,600italic,700italic&subset=latin,vietnamese,latin-ext' rel='stylesheet' type='text/css'>
+        
+        <!-- Font Awesome Web Font Icons-->
+        <link href="css/font-awesome.min.css" type="text/css" rel="stylesheet" media="screen" />
+        
+        <!-- General Stylesheet-->
+        <link href="css/style.css" type="text/css" rel="stylesheet" media="screen" />
     <link
       rel="stylesheet"
       type="text/css"
@@ -36,48 +51,32 @@
       media="screen"
     />
   </head>
-
   <body onload="init()">
-    <section class="page-header1">
-      <h1 class="project-name">Movies Visualization</h1>
-    </section>
-    <div class="w3-bar w3-teal">
-      <a
-        href="#"
-        onclick="navigate('previous');"
-        class="w3-bar-item w3-button"
-        style="width: 27%;"
-        ><<</a
-      >
-      <a
-        href="#"
-        onclick="navigate('summary');"
-        class="w3-bar-item w3-button"
-        style="width: 15%;"
-        >Summary</a
-      >
-      <a
-        href="#"
-        onclick="navigate('genresby');"
-        class="w3-bar-item w3-button"
-        style="width: 15%;"
-        >Genres By</a
-      >
-      <a
-        href="#"
-        onclick="navigate('genresdetail');"
-        class="w3-bar-item w3-button w3-green"
-        style="width: 15%;"
-        >Country Details</a
-      >
-      <a
-        href="#"
-        onclick="navigate('next');"
-        class="w3-bar-item w3-button"
-        style="width: 28%;"
-        >>></a
-      >
-    </div>
+    <header> 
+      <div class="row"> 
+          <div class="large-4 medium-12 column"> 
+              <div class="logoholder">
+                  <a href="#home" class="scroll"><img src="images/uiuc.jpeg" alt="" title="" width="70" height="50"></a>
+              </div>
+          </div>
+          <div class="large-8 medium-12 column">
+              <nav> 
+                  <ul> 
+                      <li><a href="#" onclick="navigate('summary');" class="scroll">Content Volume</a></li>
+                      <li>|</li>
+                      <li><a href="#" onclick="navigate('genresby');" class="scroll">Content Category</a></li>
+                      <li>|</li>
+                      <li><a href="#" onclick="navigate('genresdetail');" class="scroll">Content Trend</a></li>
+                  </ul>
+              </nav>
+          </div>
+          
+          <div class="large-12 column">
+              <div class="sep"> </div>
+          </div>
+          
+      </div>
+  </header>
     <section class="main-content">
       <h3>
         <span aria-hidden="true" class="octicon octicon-link"></span>Genres by Directors
