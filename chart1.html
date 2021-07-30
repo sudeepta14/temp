@@ -3,7 +3,7 @@
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <head>
     <meta charset="UTF-8" />
-    <title>Narrative-viz by das25</title>
+    <title>Narrative Visualization about Streaming Services</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link href="css/foundation.css" type="text/css" rel="stylesheet" media="screen" />
@@ -65,9 +65,9 @@
                   <ul> 
                       <li><a href="#" onclick="navigate('summary');" class="scroll">Content Volume</a></li>
                       <li>|</li>
-                      <li><a href="#" onclick="navigate('genresby');" class="scroll">Content Category</a></li>
+                      <li><a href="#" onclick="navigate('category');" class="scroll">Content Category</a></li>
                       <li>|</li>
-                      <li><a href="#" onclick="navigate('genresdetail');" class="scroll">Content Trend</a></li>
+                      <li><a href="#" onclick="navigate('trend');" class="scroll">Content Trend</a></li>
                   </ul>
               </nav>
           </div>
@@ -80,54 +80,52 @@
   </header>
     <section class="main-content">
       <h3>
-        <span aria-hidden="true" class="octicon octicon-link" id="header2"></span>Movies and Genres Summary
+        <span aria-hidden="true" class="octicon octicon-link" id="header2"></span>Which streaming service has the highest number of movies?
       </h3>
       <footer class="site-footer">
         <div class="tooltip2">
           <span class="site-footer-credits">
-            You may click to interactively view corresponding data on the charts.
+            Amazon Prime Video has the largest content slate. You may click on the bar to interactively view corresponding data about that streaming service.
           </span>
           </div>
       </footer>
 
       <div class="tooltip1">
-        Below is the summary representation of Movie genres dataset in 2008 
-        provided in Kaggle. Below is the summary of the dataset
-        providing insight into the <mark class="pink">countries</mark> and
-        <mark class="pink">the number of genres</mark> available for the respective countries.
-        From the charts below we can clearly see that the Country China
-        constitutes a significant percentage of the total number of genres received.
-	  </br></br>
-	  	<mark class="green">Left Bar Chart</mark> shows top 20 <mark class="pink">Countries</mark> by
-		 <mark class="pink">Number of genres</mark> won<br />
-		 <mark class="green">Right Pie Chart</mark> shows <mark class="pink">Countries</mark> by
-		 <mark class="pink">Number of genres</mark> in <mark class="red">percentages</mark>
+        The charts below represent content volume (number of movies released) per streaming service and this data set is provided by Kaggle.
+ 		Video Streaming Services such as <mark class="green">Netflix</mark>, <mark class="green">Prime Video</mark>, <mark class="green">Hulu</mark> and
+ 		 <mark class="green">DisneyPlus</mark> are fundamentally changing the viewing habits of consumers of all ages. 
+ 		</br>The charts clearly depict that Amazon's Video on Demand Service ranks first among companies with the biggest impact on digital video.
+ 		To learn more about the content libraries of the four streaming giants is the soul objective of this project. This will help potential subscribers in choosing the best streaming service based on content quality (IMDb score), Genre, Rating, Country and Language and yearly releases. 
+		</br></br>Content Volume is presented below. <br />
+	  	<mark class="green">Left Bar Chart</mark> shows content volume <mark class="green">for each streaming provider</mark> by
+		 <mark class="green">Number of movies</mark> won<br />
+		 <mark class="green">Right Pie Chart</mark> shows <mark class="green">four streaming services</mark> by
+		 <mark class="green">Number of movies</mark> in <mark class="green">percentages</mark>
       </div>
 
       <div>
         <svg width="600" height="600"></svg>
       </div>
     </section>
-
     <script>
       var currentPage = "chart1.html";
       var nextPage = "chart2.html";
       var previousPage = "chart1.html";
-      var summaryPage = "chart1.html";
-      var genresbyPage = "chart2.html";
-      var genresdetailPage = "chart3.html";
+      var volumePage = "chart1.html";
+      var categoryPage = "chart2.html";
+      var trendPage = "chart3.html";
 
       function navigate(action) {
         if (action == "next") {
           dest = nextPage;
         } else if (action == "previous") {
           dest = previousPage;
-        } else if (action == "summary") {
-          dest = summaryPage;
-        } else if (action == "genresby") {
-          dest = genresbyPage;
-        } else if (action == "genresdetail") {
-          dest = genresdetailPage;
+        } else if (action == "volume") {
+          dest = volumePage;
+        } else if (action == "category") {
+          dest = categoryPage;
+        } else if (action == "trend") {
+          dest = trendPage;
         } else dest = "#";
         window.location = dest;
       }
@@ -191,37 +189,9 @@ var streamingServicesMap = {
 console.log('streamingServicesMap', streamingServicesMap);
 
      var graphdata = d3.entries(streamingServicesMap);
-//console.log('data1', data1);
-
-		  /*var data1 = d3
-          .nest()
-          .key(function (d) {
-            return d.Netflix == "" ? "None" : d.Netflix;
-          })
-          .rollup(function (d) {
-            return d3.sum(d, function (g) {
-              return 1;
-            });
-          })
-          .entries(data);
-          console.log('data1', data1);*/
-
-/*        var data1 = d3
-          .nest()
-          .key(function (d) {
-            return d.Genre == "" ? "None" : d.Genre;
-          })
-          .rollup(function (d) {
-            return d3.sum(d, function (g) {
-              return 1;
-            });
-          })
-          .entries(data);
-*/
         graphdata.sort(function (a, b) {
           return d3.descending(+a.value, +b.value);
         });
-        //var graphdata = data1.slice(0, 10); // Top 20 elements
          //console.log('data1', data1);
 
         //X-scale
@@ -246,8 +216,6 @@ console.log('streamingServicesMap', streamingServicesMap);
             }),
           ])
           .range([yheight, 0]);
-
-        var colorrn = d3.scaleOrdinal(d3.schemeCategory10); //Color should be same as pie chart
 
         // Tool Tip mouse hover
         var tooltip = d3
@@ -293,8 +261,8 @@ console.log('streamingServicesMap', streamingServicesMap);
           })
 		  .text((d) => d.value)
           .on("mouseover", (d) => {
-			var textval = "Total genres: " + totalGenres;
-			textval = textval + "</br>" + (d.key + " : " + d.value.toFixed(0) + ' Genres');
+			var textval = "Total movies: " + totalMovies;
+			textval = textval + "</br>" + (d.key + " : " + d.value.toFixed(0) + ' Movies');
             tooltip.html(textval);
             return tooltip.style("visibility", "visible");
           })
@@ -325,7 +293,7 @@ console.log('streamingServicesMap', streamingServicesMap);
             d3
               .axisLeft(ys)
               .ticks(7)
-              //.tickFormat(d3.format("~s"))
+              .tickFormat(d3.format("~s"))
           );
 
         // text label for the y axis
@@ -383,10 +351,10 @@ console.log('streamingServicesMap', streamingServicesMap);
 		//console.log('graphdata1', graphdata1 );
 
         var radius = 150;
-        var totalGenres = d3.sum(graphdata, (d) => d.value); //Find total number of genres
+        var totalMovies = d3.sum(graphdata, (d) => d.value); //Find total number of genres
 
         var piedata = graphdata.map(function (d) {
-          var val = (d.value / totalGenres) * 100;
+          var val = (d.value / totalMovies) * 100;
           //console.log(val);
           return val;
         });
@@ -423,7 +391,7 @@ console.log('streamingServicesMap', streamingServicesMap);
           .text((d) => d.value)
           .on("mouseover", function (d, i) {
             d3.select(this)
-              .style("stroke", "black")
+              .style("stroke", "grey")
               .style("stroke-width", "2px");
             tooltip.text(getKey(i) + " : " + d3.format(".1f")(d.value) + " %");
             return tooltip.style("visibility", "visible");
@@ -459,7 +427,7 @@ console.log('streamingServicesMap', streamingServicesMap);
               ? ""
               : d3.format(".1f")(d.value) + " %";
           })
-          .style("fill", "#1f77b4")
+          .style("fill", "grey")
           .style("font", "Arial")
           .style("font-size", "10px")
           .style("font-weight", "bold");
@@ -474,6 +442,6 @@ console.log('streamingServicesMap', streamingServicesMap);
           )
           .range([0, xwidth]);
       }
-    </script>
+    </script>      
   </body>
 </html>
