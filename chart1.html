@@ -63,11 +63,11 @@
           <div class="large-8 medium-12 column">
               <nav> 
                   <ul> 
-                      <li><a href="#about" class="scroll">About</a></li>
+                      <li><a href="#" onclick="navigate('summary');" class="scroll">Summary</a></li>
                       <li>/</li>
-                      <li><a href="#services" class="scroll">Services</a></li>
+                      <li><a href="#" onclick="navigate('genresby');" class="scroll">Genres By</a></li>
                       <li>/</li>
-                      <li><a href="#works" class="scroll">Works</a></li>
+                      <li><a href="#" onclick="navigate('genresdetail');" class="scroll">Works</a></li>
                   </ul>
               </nav>
           </div>
@@ -78,42 +78,7 @@
           
       </div>
   </header>
-    <div class="w3-bar w3-teal">
-      <a
-        href="#"
-        onclick="navigate('previous');"
-        class="w3-bar-item w3-button"
-        style="width: 27%;"
-        ><<</a
-      >
-      <a
-        href="#"
-        onclick="navigate('summary');"
-        class="w3-bar-item w3-button w3-green"
-        style="width: 15%;"
-        >Summary</a
-      >
-      <a
-        href="#"
-        onclick="navigate('genresby');"
-        class="w3-bar-item w3-button"
-        style="width: 15%;"
-        >Genres By</a
-      >
-      <a
-        href="#"
-        onclick="navigate('genresdetail');"
-        class="w3-bar-item w3-button"
-        style="width: 15%;"
-        >Genres Details</a
-      >
-      <a
-        href="#"
-        onclick="navigate('next');"
-        class="w3-bar-item w3-button"
-        style="width: 28%;"
-        >>></a
-      >
+    <div class="w3-bar w3-teal" id="header2">
     </div>
     <section class="main-content">
       <h3>
