@@ -148,7 +148,7 @@ a:hover {
 }
 
 #bluetext{
-  color: darkblue;
+  color: #00A8E1;
   font-size: 15.5px;
   font-family: Arial, Helvetica, sans-serif;
   padding: 1px;
@@ -156,7 +156,7 @@ a:hover {
 }
 
 #redbody{
-  color: red;
+  color: #E50914;
   font-size: 15.5px;
   font-family: Arial, Helvetica, sans-serif;
   padding: 1px;
@@ -171,8 +171,16 @@ a:hover {
   word-spacing: 3px;
 }
 
+#greenbody{
+  color: #66aa33;
+  font-size: 15.5px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 1px;
+  word-spacing: 3px;
+}
+
 #blueybody{
-  color: blue;
+  color: #006e99;
   font-size: 15.5px;
   font-family: Arial, Helvetica, sans-serif;
   padding: 1px;
