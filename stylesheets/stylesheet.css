@@ -147,6 +147,37 @@ a:hover {
   word-spacing: 3px;
 }
 
+#bluetext{
+  color: darkblue;
+  font-size: 15.5px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 1px;
+  word-spacing: 3px;
+}
+
+#redbody{
+  color: red;
+  font-size: 15.5px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 1px;
+  word-spacing: 3px;
+}
+
+#bluebody{
+  color: skyblue;
+  font-size: 15.5px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 1px;
+  word-spacing: 3px;
+}
+
+#blueybody{
+  color: blue;
+  font-size: 15.5px;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 1px;
+  word-spacing: 3px;
+}
 .main-content :first-child {
   margin-top: 0;
 }
