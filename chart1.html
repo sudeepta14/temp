@@ -424,15 +424,11 @@ console.log('streamingServicesMap', streamingServicesMap);
               .style("top", d3.event.pageY - 10 + "px")
               .style("left", d3.event.pageX + 10 + "px");
           })
-          .on("mouseout", function () {
-            d3.select(this)
-              .style("stroke", "white")
-              .style("stroke-width", "1px");
-            tooltip.style("visibility", "hidden");
-          })
-          .on("click", (d, i) => {
+          .on("mouseout", () => tooltip.style("visibility", "hidden"))
+          .on("click", (d,i) => {
             loadPage(getKey(i));
           });
+
 
         // Arc defined just for label below
         var labelArc = d3
