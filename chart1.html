@@ -403,6 +403,7 @@ console.log('streamingServicesMap', streamingServicesMap);
 
         g.append("path")
           .attr("d", arc)
+          .style("visibility", "hidden")
           .attr("fill", function (d, i) {
             console.log('d', d)
 			if(getKey(i) == "Netflix") { console.log("Netflix"); return "#DC0012";}
