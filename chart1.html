@@ -204,6 +204,7 @@ var streamingServicesMap = {
 };
 console.log('streamingServicesMap', streamingServicesMap);
 
+
      var graphdata = d3.entries(streamingServicesMap);
         graphdata.sort(function (a, b) {
           return d3.descending(+a.value, +b.value);
@@ -257,7 +258,6 @@ console.log('streamingServicesMap', streamingServicesMap);
           .data(graphdata)
           .enter()
 		  .append("rect")
-      .text("sudeepta")
 		  .attr("data-html", "true")
           .attr("x", function (d, i) {
             return xs(d.key);
@@ -358,6 +358,14 @@ console.log('streamingServicesMap', streamingServicesMap);
           .style("font", "Arial")
           .style("font-size", "10px")
           .style("font-weight", "bold");
+
+        svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text("Value vs Date Graph");
 
         ///////////////////////////////////////////////////// Bar Chart End ///////////////////////////////////////
 
