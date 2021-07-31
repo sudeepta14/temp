@@ -110,7 +110,11 @@
 		 <mark class="green" id = "bluetext" >Right Pie Chart</mark> shows <mark class="green" id = "bluetext">four streaming services</mark> by
 		 <mark class="green" id = "bluetext" >Number of movies</mark> in <mark class="green" id = "bluetext">percentages</mark>
       </div>
+      <br>
 
+      <div>
+        <svg width="600" height="600"></svg>
+      </div>
       <footer class="site-footer">
         <div class="tooltip2">
           <span class="site-footer-credits">
@@ -118,9 +122,6 @@
           </span>
           </div>
       </footer>
-      <div>
-        <svg width="600" height="600"></svg>
-      </div>
     </section>
     <script>
       var currentPage = "chart1.html";
@@ -241,7 +242,8 @@ console.log('streamingServicesMap', streamingServicesMap);
           .style("z-index", 10)
           .style("visibility", "hidden")
           .text("Simple text");
-
+        
+          d3.select('body').append('h2').text("xys");
         // Chart
         d3.select("svg")
           .attr("width", width)
