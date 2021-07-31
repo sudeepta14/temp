@@ -211,10 +211,11 @@ a:hover {
     margin-top: 200px;
     margin-bottom: 1rem;
     font-weight: normal;
-    color: darkblue;
+    color: #965884;
 }
 .main-content h6 {
   margin-top: 2rem;
+  text-decoration: wavy;
 }
 .main-content p {
   margin-bottom: 1em;
