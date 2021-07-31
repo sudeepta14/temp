@@ -332,13 +332,6 @@ console.log('streamingServicesMap', streamingServicesMap);
           .style("font-weight", "bold")
           .text("No of Movies");
 
-          d3.select("body")
-          .append("text")
-          .style("text-anchor", "right")
-          .style("font", "Arial")
-          .style("font-size", "7px")
-          .style("text-declaration", "underline")
-          .text("Content Volume / No of movies won");
 
         // x- axis
         d3.select("svg")
@@ -401,6 +394,13 @@ console.log('streamingServicesMap', streamingServicesMap);
           .selectAll("path")
           .data(arcData)
           .enter();
+
+          g.append("text")
+          .style("text-anchor", "right")
+          .style("font", "Arial")
+          .style("font-size", "7px")
+          .style("text-declaration", "underline")
+          .text("Content Volume / No of movies won");
 
         g.append("path")
           .attr("d", arc)
