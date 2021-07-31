@@ -170,6 +170,16 @@ a:hover {
   word-spacing: 3px;
 }
 
+#first:hover{
+  background-color: #d3b4ca;
+  color: black;
+}
+
+#next:hover{
+  background-color: #d3b4ca;
+  color: black;
+}
+
 #bluebody{
   color: skyblue;
   font-size: 15.5px;

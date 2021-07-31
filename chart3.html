@@ -100,6 +100,10 @@
 	      </br>
 	    Based on user preferences set for  <span  id = "bluetext">Content Category</span> and <span  id = "bluetext">Streaming Service</span>, content availability will be displayed in below chart accordingly.
       </p>
+      <h6> Content Trend Chart Description </h6> 
+
+      Showing distribution for <span id="bluetext" > All Movies </span> by Content Category <span id="bluetext" > Age - All </span> starting with current year.
+      <br> </br>
         <div id="selectchoice">
           <div id="selectdiv"></div>
         </div>      
@@ -275,10 +279,6 @@ filedata = filedata.filter(function(d){return d.IMDb >= 7 && (d.Year >= 2010 && 
 
         //Before drawing chart set everything to blank
         var originbyval1 = (originbyval !== "")? originbyval : "All";
-        document.getElementById("chartlabel").innerHTML = "<mark class='green'> Chart: </mark>" + 
-          "Showing distribution for <mark class='teal'>" + origin + "</mark> by Content Category " + 
-          "<mark class='teal'>" + originby + "</mark> - " + "<mark class='green'>" + originbyval1 + "</mark>" +
-          " starting with current year." + "</br></br>";
 
         initializeChartData(); //initializes list with data for the next loadList call
         loadList();
