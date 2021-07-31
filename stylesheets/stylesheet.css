@@ -156,6 +156,11 @@ a:hover {
   word-spacing: 3px;
 }
 
+#imageclass{
+  margin-left: 100px;
+  width: 500px;
+}
+
 #redbody{
   color: #E50914;
   font-size: 15.5px;
@@ -199,10 +204,14 @@ a:hover {
 .main-content h4,
 .main-content h5,
 .main-content h6 {
+    /* margin-top: 50px; */
+    margin-top: 100px;
+    margin-bottom: 1rem;
+    font-weight: normal;
+    color: darkblue;
+}
+.main-content h6 {
   margin-top: 2rem;
-  margin-bottom: 1rem;
-  font-weight: normal;
-  color: darkblue;
 }
 .main-content p {
   margin-bottom: 1em;
