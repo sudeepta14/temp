@@ -87,22 +87,23 @@
             <img src="images/stream.png" alt="Streaming" title="Stream Wars">
         </div>
     </div>
+    <br>
       <h3>
         <span aria-hidden="true" class="octicon octicon-link"></span>Genres by Directors
       </h3>
-      <div class="tooltip1">
-        This chart shows genres by male/females. By <mark class="teal">default</mark> shows 
-        <mark class="teal">All Jobs</mark> by employers belonging to different <mark class="teal">sectors</mark>.
+      <div class="tooltip1" id = "textbody">
+        This chart shows genres by male/females. By <mark class="green" id = "bluetext">default</mark> shows 
+        <mark class="green" id = "bluetext">All Jobs</mark> by employers belonging to different <mark class="green" id = "bluetext">sectors</mark>.
         Chart is in descending order with the Company Names having most number of jobs showing first.
         Many companies are there belonging to different company types and hence pagination provided.</br>
-        Any selection of an <mark class="teal">Employer Type</mark> and <mark class="teal">value</mark> from the previous page will set the chart accordingly.</br>
-        Chart can be viewed interactively by selecting/deselecting the <mark class="teal">Job Titles</mark> on the top right corner.
+        Any selection of an <mark class="green" id = "bluetext">Employer Type</mark> and <mark class="green" id = "bluetext">value</mark> from the previous page will set the chart accordingly.</br>
+        
 	      </br>
       </p>
       <footer class="site-footer">
         <div class="tooltip2">
           <span class="site-footer-credits">
-             You may click on the bar to interactively view corresponding data about that streaming service.
+            Chart can be viewed interactively by selecting/deselecting the <mark class="green" id = "bluetext">Job Titles</mark> on the top right corner.
           </span>
           </div>
       </footer>
@@ -119,6 +120,13 @@
         </div>        
         <svg id="chart" width="960" height="500"></svg>        
       </div>
+      <footer class="site-footer">
+        <div class="tooltip2">
+          <span class="site-footer-credits">
+             You may click on the bar to interactively view corresponding data about that streaming service.
+          </span>
+          </div>
+      </footer>
     </section>
 
     <script>
