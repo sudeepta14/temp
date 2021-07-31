@@ -243,7 +243,6 @@ console.log('streamingServicesMap', streamingServicesMap);
           .style("visibility", "hidden")
           .text("Simple text");
         
-          d3.select("svg").append('h2').text("xys");
         // Chart
         d3.select("svg")
           .attr("width", width)
@@ -327,6 +326,14 @@ console.log('streamingServicesMap', streamingServicesMap);
           .attr("y", 0 - margin.left)
           .attr("x", 0 - yheight / 2)
           .attr("dy", ".75em")
+          .style("text-anchor", "middle")
+          .style("font", "Arial")
+          .style("font-size", "11px")
+          .style("font-weight", "bold")
+          .text("No of Movies");
+
+          d3.select("svg")
+          .append("text")
           .style("text-anchor", "middle")
           .style("font", "Arial")
           .style("font-size", "11px")
