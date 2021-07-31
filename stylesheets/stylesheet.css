@@ -188,6 +188,23 @@ a:hover {
   display: inline-block;
 }
 
+.round {
+  border-radius: 50%;
+}
+
+.previous {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.next {
+  background-color: #04AA6D;
+  color: white;
+}
+#nav{
+  float: right;
+}
+
 #bluebody{
   color: skyblue;
   font-size: 15.5px;
@@ -205,6 +222,12 @@ a:hover {
 }
 .tooltip{
   color: #d3b4ca;
+}
+.button{
+  padding: 5px;
+  color: white;
+  font-size: 14px;
+  background-color: #965884;
 }
 #blueybody{
   color: #006e99;

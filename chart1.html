@@ -66,15 +66,18 @@
           </div>
 
           <div class="large-8 medium-12 column">
-              <nav> 
+              <nav class = "topbar"> 
                   <ul> 
-                      <li><a href="#" onclick="navigate('summary');" class="scroll">Content Volume</a></li>
+                      <li class = "active"><a href="#" onclick="navigate('summary');" class="scroll">Content Volume</a></li>
                       <li class="dot"></li>
                       <li><a href="#" onclick="navigate('category');" class="scroll">Content Category</a></li>
                       <li class="dot">  </li>
                       <li><a href="#" onclick="navigate('trend');" class="scroll">Content Trend</a></li>
                   </ul>
               </nav>
+              <div class="small button-group" id ="nav">
+                <a href="#" onclick="navigate('category');"" class="button">Next</a>
+              </div>
           </div>
           
           <div class="large-12 column">

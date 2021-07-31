@@ -254,10 +254,20 @@ header nav ul li {
 }
 header nav ul li a {
   text-decoration: none;
-  color: black;
+  color: #898989;
 }
 header nav ul li a:hover {
-  color: #898989;
+  background-color: white;
+  color: black;
+}
+
+.topbar ul li.active > a {
+  background-color: white;
+  color: black;
+}
+
+header nav ul li a:active {
+  color: black;
 }
 header nav ul li.current a {
   color: #898989;
