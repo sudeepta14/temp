@@ -100,11 +100,9 @@
         <br>
 
         <h6> Content Volume Chart Description </h6> 
-        Showing distribution of titles for <span  id = "bluetext">All Movies</span> by top 10 in Content Category <span  id = "bluetext">Genre</span> by number of movies
+        Showing distribution of titles for <span  id = "bluetext">All Movies</span> by top 10 in Content Category <span  id = "bluetext">Genre</span> by number of movies. Chart can be viewed interactively by selecting the <span  id = "bluetext">Streaming Service</span> and <span  id = "bluetext">Movies by</span>
+        from the drop down below.
         </div>
-
-        <h6>Chart can be viewed interactively by selecting the <span  id = "bluetext">Streaming Service</span> and <span  id = "bluetext">Movies by</span>
-        from the drop down below.</h6>
 	      </br>
       </p>
       <div id="selectchoice">
@@ -613,10 +611,6 @@ var data1 = d3
           .style("z-index", 10)
           .style("visibility", "hidden")
           .text("Simple text");
-
-        //Before drawing chart set everything to blank
-        document.getElementById("chartlabel").innerHTML = "<mark class='green'> Chart: </mark>" + 
-          "Showing distribution of titles for <mark class='pink'>" + origin + "</mark> by top 10 in Content Category (<mark class='pink'>" + originby + "</mark>)" + " by number of movies";
 
         d3.select("svg").selectAll("*").remove();
 
