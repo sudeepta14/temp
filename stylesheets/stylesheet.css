@@ -213,6 +213,10 @@ a:hover {
     font-weight: normal;
     color: #965884;
 }
+
+#selectchoice{
+  width: 100px;
+}
 .main-content h6 {
   margin-top: 2rem;
   text-decoration: wavy;
