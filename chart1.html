@@ -275,10 +275,10 @@ console.log('streamingServicesMap', streamingServicesMap);
           })
           .attr("fill", function (d,i) {
             console.log('d', d)
-			if(getKey(i) == "Netflix") { console.log("Netflix"); return "#E50914";}
-			else if(getKey(i) == "Prime Video") { console.log("Prime Video", getKey(i)); return "#00A8E1";}
-			else if(getKey(i) == "Hulu") { console.log("Hulu"); return "#66aa33";}
-			else if(getKey(i) == "DisneyPlus") { console.log("DisneyPlus"); return "#006e99";}
+			if(getKey(i) == "Netflix") { console.log("Netflix"); return "#DC0012";}
+			else if(getKey(i) == "Prime Video") { console.log("Prime Video", getKey(i)); return "#0C1316";}
+			else if(getKey(i) == "Hulu") { console.log("Hulu"); return "#28F678";}
+			else if(getKey(i) == "DisneyPlus") { console.log("DisneyPlus"); return "#09476C";}
 			else return colorOrd(i);
           })
 		  .text((d) => d.value)
@@ -405,10 +405,10 @@ console.log('streamingServicesMap', streamingServicesMap);
           .attr("d", arc)
           .attr("fill", function (d, i) {
             console.log('d', d)
-			if(getKey(i) == "Netflix") { console.log("Netflix"); return "#E50914";}
-			else if(getKey(i) == "Prime Video") { console.log("Prime Video", getKey(i)); return "#00A8E1";}
-			else if(getKey(i) == "Hulu") { console.log("Hulu"); return "#66aa33";}
-			else if(getKey(i) == "DisneyPlus") { console.log("DisneyPlus"); return "#006e99";}
+			if(getKey(i) == "Netflix") { console.log("Netflix"); return "#DC0012";}
+			else if(getKey(i) == "Prime Video") { console.log("Prime Video", getKey(i)); return "#0C1316";}
+			else if(getKey(i) == "Hulu") { console.log("Hulu"); return "#28F678";}
+			else if(getKey(i) == "DisneyPlus") { console.log("DisneyPlus"); return "#09476C";}
 			else return colorOrd(i); 
           })
           .text((d) => d.value)
