@@ -413,9 +413,6 @@ console.log('streamingServicesMap', streamingServicesMap);
           })
           .text((d) => d.value)
           .on("mouseover", function (d, i) {
-            d3.select(this)
-              .style("stroke", "grey")
-              .style("stroke-width", "2px");
             tooltip.text(getKey(i) + " : " + d3.format(".1f")(d.value) + " %");
             return tooltip.style("visibility", "visible");
           })
