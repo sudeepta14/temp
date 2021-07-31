@@ -3,7 +3,7 @@
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <head>
     <meta charset="UTF-8" />
-    <title>Movie Visualization</title>
+    <title>Video Streaming Insights </title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link href="css/foundation.css" type="text/css" rel="stylesheet" media="screen" />
@@ -61,7 +61,7 @@
               </div>
             </br>
             <div class="logoholder">
-              Data Visualization Project 2021
+              Video Streaming Insights 
           </div>
           </div>
           <div class="large-8 medium-12 column">
@@ -90,15 +90,15 @@
     </div>
     <br>
       <h3>
-        <span aria-hidden="true" class="octicon octicon-link"></span>Genres by Movie Types
+        <span aria-hidden="true" class="octicon octicon-link"></span>Which content category accounts for the largest number of highly-rated movies?
       </h3>
 
       <div class="tooltip1" id = "textbody"> 
-        This chart shows genres by different Sports/Disciplines/Events Games attributes. By <mark class="green" id = "bluetext">default</mark> shows 
-        <mark class="green" id = "bluetext">all genres</mark> by Games belonging to different <mark class="green" id = "bluetext">Sports</mark>.
-        Any selection of a <mark class="green" id = "bluetext">Country</mark> from the previous page will set the chart accordingly.</br>
+        This chart shows <mark class="green" id = "bluetext">Top 10</mark> content categories by Title Metadata such as Genre, Age, Language, Runtime and IMDb score. By <mark class="green" id = "bluetext">default</mark> shows 
+        <mark class="green" id = "bluetext">all movies</mark> by content categories belonging to different <mark class="green" id = "bluetext">Genres</mark>.
+        Any selection of a <mark class="green" id = "bluetext">Streaming Service Provider</mark> from the previous page will set the chart accordingly.</br>
         <br>
-        Chart can be viewed interactively by selecting the <mark class="green" id = "bluetext">Country</mark> and <mark class="green" id = "bluetext">Movie Type</mark>
+        Chart can be viewed interactively by selecting the <mark class="green" id = "bluetext">Streaming Service</mark> and <mark class="green" id = "bluetext">Movies by</mark>
         from the drop down below.        
 	      </br>
       </p>
@@ -112,7 +112,7 @@
         <footer class="site-footer">
           <div class="tooltip2">
             <span class="site-footer-credits">
-               You may click on the bar to interactively view corresponding data about that streaming service.
+               You may click on the bar to interactively view corresponding data about that content category.
             </span>
             </div>
         </footer>
@@ -132,7 +132,7 @@
       var totaljobs;
       var topjobs = []; // Top job Keys
       var origin;
-      var originby = 'Age';  //default
+      var originby = 'Genre';  //default
       var margin = {
         top: 50,
         right: 50,
@@ -335,9 +335,13 @@ var data1 = d3
         });
  
         byoption = document.createElement("option");
+        byoption.value = 'Genre';
+        byoption.text = 'Genre';
+        selectby.appendChild(byoption);         
+        byoption = document.createElement("option");
         byoption.value = 'Age';
         byoption.text = 'Age';
-        selectby.appendChild(byoption);         
+        selectby.appendChild(byoption);        
         byoption = document.createElement("option");
         byoption.value = 'Language';
         byoption.text = 'Language';
@@ -347,10 +351,9 @@ var data1 = d3
         byoption.text = 'Runtime';
         selectby.appendChild(byoption);        
         byoption = document.createElement("option");
-        byoption.value = 'Genre';
-        byoption.text = 'Genre';
+        byoption.value = 'IMDb';
+        byoption.text = 'IMDb';
         selectby.appendChild(byoption);        
-        
         //First remove all elements and then add
         document.getElementById("bydiv").innerHTML = null;
         document
@@ -521,8 +524,30 @@ var data1 = d3
             });
           })
           .entries(filteredData);
-        }   
-        
+        }  
+        else if (originby === 'IMDb') {
+          chartdata = d3
+          .nest()
+          .key(function (d) {
+            if (d.IMDb == "") keyval = "Unknown";
+            else if (d.IMDb == "-1") keyval = "Unknown";
+            else keyval = d.IMDb;
+            
+            if (origin == "All Movies") return keyval;
+            else if (origin === "Netflix") return keyval;
+            else if (origin === "Prime Video") return keyval;
+            else if (origin === "Hulu") return keyval;
+            else if (origin === "DisneyPlus") return keyval;
+            //else if (d.Genre == origin) return keyval;
+       		else return "Filter";
+          })
+          .rollup(function (d) {
+            return d3.sum(d, function (g) {
+           		return 1;
+            });
+          })
+          .entries(filteredData);
+        }          
       }      
 
       //Function to draw chart
@@ -582,7 +607,7 @@ var data1 = d3
 
         //Before drawing chart set everything to blank
         document.getElementById("chartlabel").innerHTML = "<mark class='green'> Chart: </mark>" + 
-          "Showing distribution for Genres for <mark class='pink'>" + origin + "</mark> by top 20 in Game type (<mark class='pink'>" + originby + "</mark>)" + " by number of genres";
+          "Showing distribution of titles for <mark class='pink'>" + origin + "</mark> by top 10 in Content Category (<mark class='pink'>" + originby + "</mark>)" + " by number of movies";
 
         d3.select("svg").selectAll("*").remove();
 
@@ -648,7 +673,7 @@ var data1 = d3
             d3
               .axisLeft(ys)
               .ticks(7)
-              //.tickFormat(d3.format("~s"))
+              .tickFormat(d3.format("~s"))
           );
 
         // text label for the y axis

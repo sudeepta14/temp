@@ -158,8 +158,8 @@ a:hover {
 
 #imageclass{
   margin-top: 40px;
-  margin-left: 150px;
-  width: 400px;
+  margin-left: 250px;
+  width: 200px;
 }
 
 #redbody{
@@ -185,7 +185,9 @@ a:hover {
   padding: 1px;
   word-spacing: 3px;
 }
-
+.tooltip{
+  color: #d3b4ca;
+}
 #blueybody{
   color: #006e99;
   font-size: 15.5px;
@@ -206,7 +208,7 @@ a:hover {
 .main-content h5,
 .main-content h6 {
     /* margin-top: 50px; */
-    margin-top: 300px;
+    margin-top: 200px;
     margin-bottom: 1rem;
     font-weight: normal;
     color: darkblue;
@@ -362,7 +364,7 @@ a:hover {
   margin-top: 2rem;
   margin-bottom: 30px;
   padding-left: 10px;
-  border-top: solid 1px #eff0f1;
+  border-top: solid 1px #d3b4ca;
 }
 
 .site-footer-owner {
@@ -371,7 +373,7 @@ a:hover {
 }
 
 .site-footer-credits {
-  color: #819198;
+  color:black;
 }
 
 @media screen and (min-width: 64em) {

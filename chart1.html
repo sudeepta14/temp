@@ -3,7 +3,7 @@
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <head>
     <meta charset="UTF-8" />
-    <title>Movie Visualization</title>
+    <title>Video Streaming Insights</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link href="css/foundation.css" type="text/css" rel="stylesheet" media="screen" />
@@ -61,7 +61,7 @@
               </div>
             </br>
               <div class="logoholder">
-                Data Visualization Project 2021
+                Video Streaming Insights
             </div>
           </div>
 
@@ -69,9 +69,9 @@
               <nav> 
                   <ul> 
                       <li><a href="#" onclick="navigate('summary');" class="scroll">Content Volume</a></li>
-                      <li>|</li>
+                      <li> > </li>
                       <li><a href="#" onclick="navigate('category');" class="scroll">Content Category</a></li>
-                      <li>|</li>
+                      <li> > </li>
                       <li><a href="#" onclick="navigate('trend');" class="scroll">Content Trend</a></li>
                   </ul>
               </nav>
@@ -95,7 +95,7 @@
       <br>
 
       <h3>
-        <span aria-hidden="true" class="octicon octicon-link" id="header2"></span>Which streaming service has the highest number of movies?
+        <span aria-hidden="true" class="octicon octicon-link" id="header2"></span>Which streaming service has the largest number of highly-rated movies?
       </h3>
 
       <div class="tooltip1" id = "textbody">
@@ -103,12 +103,11 @@
  		Video Streaming Services such as <mark class="green" id = "redbody">Netflix</mark>, <mark class="green" id = "bluebody">Prime Video</mark>, <mark class="green" id="greenbody" >Hulu</mark> and
  		 <mark class="green" id = "blueybody">DisneyPlus</mark> are fundamentally changing the viewing habits of consumers of all ages. 
  		</br></br>The charts clearly depict that Amazon's Video on Demand Service ranks first among companies with the biggest impact on digital video.
- 		To learn more about the content libraries of the four streaming giants is the soul objective of this project. This will help potential subscribers in choosing the best streaming service based on content quality (IMDb score), Genre, Rating, Country and Language and yearly releases. 
+ 		To learn more about the content libraries of the four streaming giants is the soul objective of this project. This will help potential subscribers in choosing the best streaming service based on Genre, Age, Language , Runtime and IMDb score. 
 		 <h6> Content Volume Chart Description </h6> 
-	  	<mark class="green" id = "bluetext">Left Bar Chart</mark> shows content volume <mark class="green" id = "bluetext">for each streaming provider</mark> by
-		 <mark class="green" id = "bluetext" >Number of movies</mark> won<br />
-		 <mark class="green" id = "bluetext" >Right Pie Chart</mark> shows <mark class="green" id = "bluetext">four streaming services</mark> by
-		 <mark class="green" id = "bluetext" >Number of movies</mark> in <mark class="green" id = "bluetext">percentages</mark>
+	  	<mark class="green" id = "bluetext">Left Bar Chart</mark> shows highly-rated <mark class="green" id = "bluetext" >(IMDb score >=7)</mark> movies for each streaming provider<br />
+		 <mark class="green" id = "bluetext" >Right Pie Chart</mark> shows four streaming services by
+		 number of highly-rated movies in <mark class="green" id = "bluetext">percentages</mark>
       </div>
       <br>
 
@@ -118,10 +117,10 @@
       <div class="tooltip2">
         
       </div>
+
       <footer class="site-footer">
         <div class="tooltip2">
           <span class="site-footer-credits">
-            <b>Title: Content Volume Per Provider / No of movies won </b> <br>
              You may click on the bar to interactively view corresponding data about that streaming service.
           </span>
           </div>
