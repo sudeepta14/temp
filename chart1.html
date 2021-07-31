@@ -233,7 +233,6 @@ console.log('streamingServicesMap', streamingServicesMap);
           ])
           .range([yheight, 0]);
 
-          d3.select("body").append("text").text("sudeepta");
 
         // Tool Tip mouse hover
         var tooltip = d3
@@ -258,6 +257,7 @@ console.log('streamingServicesMap', streamingServicesMap);
           .data(graphdata)
           .enter()
 		  .append("rect")
+      .text("sudeepta")
 		  .attr("data-html", "true")
           .attr("x", function (d, i) {
             return xs(d.key);
